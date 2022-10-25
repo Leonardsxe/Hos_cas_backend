@@ -38,7 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    ''
+    'rest_framework',
+    'corsheaders',
+    'hospitalbackend',
 ]
 
 SIMPLE_JWT = {
@@ -74,7 +76,7 @@ REST_FRAMEWORK = {
     )
 }
 
-
+AUTH_USER_MODEL = 'hospitalbackend.Usuario'
 ROOT_URLCONF = 'HospitalCas.urls'
 
 TEMPLATES = [
@@ -102,10 +104,10 @@ WSGI_APPLICATION = 'HospitalCas.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': '',
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',
+        'NAME': 'd55c4ph8gvl8q6',
+        'USER': 'nyoyapxuoimsxd',
+        'PASSWORD': 'ffdfaa571eac8e0c9f68e43e56f9aef5cb54e9ead08a41ddc933a4f1b8689ae9',
+        'HOST': 'ec2-34-200-205-45.compute-1.amazonaws.com',
         'PORT': '5432',
     }
 }

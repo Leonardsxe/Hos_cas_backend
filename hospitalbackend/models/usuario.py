@@ -14,15 +14,34 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-def create_superuser(self, username, password):
-    """
-    Creates and saves a superuser with the given username and password.
-    """
-    user = self.create_user(
-    username=username,
-     password=password,
-    )
-    user.is_admin = True
-    user.save(using=self._db)
-    return user
+    def create_superuser(self, username, password):
+        """
+        Creates and saves a superuser with the given username and password.
+        """
+        user = self.create_user(
+        username=username,
+        password=password,
+        )
+        user.is_admin = True
+        user.save(using=self._db)
+        return user
 
+
+class Usuario(AbstractBaseUser, PermissionsMixin):
+    id = models.BigAutoField(primary_key=True) #se coloca tipo Autoincrement adicional a esto asigna como primary_key colocando el parametro primary_key=True
+    rol = models.CharField('Rol', max_length=50)
+    nombre = models.CharField('Nombre', max_length=100)
+    apellido = models.CharField('Apellido', max_length=100)
+    celular = models.CharField('celular', max_length=50)
+    email = models.EmailField('Email', max_length=150)
+    direccion = models.CharField('Direccion', max_length=250)
+    password = models.CharField('Password', max_length=256)
+    username = models.CharField('Username', max_length = 15, unique=True)
+
+    def save(self, **kwargs):
+        some_salt = '01mMUj0DrIK6vgtdIYepkIxNBT'
+        self.password = make_password(self.password, some_salt)
+        super().save(**kwargs)
+
+    objects =  UserManager()
+    USERNAME_FIELD = 'username'
