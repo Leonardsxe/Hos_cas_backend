@@ -13,9 +13,15 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from hospitalbackend import views
 from django.contrib import admin
 from django.urls import path
 
+#es una especie de router (enrutador) que tiene el framework
 urlpatterns = [
+    #cada vez que llegue una peticion con este patron
+    #solomente va el complento (no va la parte del servidor) , segundo parametro en el patron es la vista que va atender el requerimiento
     path('admin/', admin.site.urls),
+    path('user/', views.userView.UserListCreateview.as_view()),
+    path('user/<int><id>', views.userView.UserRetriveUpdateDeleteView.as_view()),
 ]
