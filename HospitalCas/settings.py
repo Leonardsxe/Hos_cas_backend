@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
+    'rest_framework', #Paquete que sirve para exponer enpoints, manejo de peticion http
     'corsheaders',
     'hospitalbackend',
 ]
@@ -62,9 +62,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'rest_framework', #Paquete que sirve para exponer enpoints, manejo de peticion http
-    'corsheaders',
-    'hospitalbackend'
 ]
 
 REST_FRAMEWORK = {

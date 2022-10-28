@@ -23,9 +23,9 @@ urlpatterns = [
     #solomente va el complento (no va la parte del servidor) , segundo parametro en el patron es la vista que va atender el requerimiento
     path('admin/', admin.site.urls),
     #ENDPOINTS Usuario
-    path('user/', views.userView.UserListCreateview.as_view()),
-    path('user/<int><pk>', views.userView.UserRetriveUpdateDeleteView.as_view()),
+    path('user/', views.UserListview.as_view()),
+    path('user/<int><pk>', views.UserRetriveUpdateDeleteView.as_view()),
     #ENDPOINTS Medico
-    path('user/', views.doctorView.DoctorListCreateview.as_view()),
-    path('user/<int><pk>', views.doctorView.DoctorRetriveUpdateDeleteView.as_view()),
+    path('user/', views.DoctorListCreateview.as_view()),
+    path('user/<int><pk>', views.DoctorRetriveUpdateView.as_view()),
 ]
