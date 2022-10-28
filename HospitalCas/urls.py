@@ -26,6 +26,6 @@ urlpatterns = [
     path('user/', views.UserListview.as_view()),
     path('user/<int><pk>', views.UserRetriveUpdateDeleteView.as_view()),
     #ENDPOINTS Medico
-    path('user/', views.DoctorListCreateview.as_view()),
-    path('user/<int><pk>', views.DoctorRetriveUpdateView.as_view()),
+    path('doctor/', views.DoctorListCreateview.as_view()),
+    path('doctor/<int><pk>', views.DoctorRetriveUpdateView.as_view()),
 ]
