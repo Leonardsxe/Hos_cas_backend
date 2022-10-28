@@ -1,6 +1,6 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
-# from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from hospitalbackend.serializers.doctorSerializer import DoctorSerializer
 from hospitalbackend.serializers.userSerializer import UserSerializer
 from hospitalbackend.models.medico import Usuario
@@ -40,15 +40,15 @@ class DoctorListCreateview(generics.ListCreateAPIView):
         serializer_doc = DoctorSerializer(data=docData)
         serializer_doc.is_valid(raise_exception=True)
         serializer_doc.save()
-        return Response(status=status.HTTP_201_CREATED)
+        #return Response(status=status.HTTP_201_CREATED)
 
-        # tokenData = {
-        #     "username":request.data["username"],
-        #     "password":request.data["password"],
-        # }
-        # tokenSerializer = TokenObtainPairSerializer(data=tokenData)
-        # tokenSerializer.is_valid(raise_exception=True)
-        #return Response(tokenSerializer.validated_data, status=status.HTTP_201_CREATED)
+        tokenData = {
+            "username":request.data["username"],
+            "password":request.data["password"],
+        }
+        tokenSerializer = TokenObtainPairSerializer(data=tokenData)
+        tokenSerializer.is_valid(raise_exception=True)
+        return Response(tokenSerializer.validated_data, status=status.HTTP_201_CREATED)
 
 class DoctorRetriveUpdateView(generics.RetrieveUpdateAPIView):
     queryset = Usuario.objects.all()
