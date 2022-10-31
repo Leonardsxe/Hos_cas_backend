@@ -22,7 +22,7 @@ class UserRetriveUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = UserSerializer
     lookup_field = "id"              #Campo con el que se realizan la busquedad de los objects
     lookup_url_kwarg = "pk"           #Nombre dado en la url al argumento
-    permission_classes = (IsAuthenticate,)
+    #permission_classes = (IsAuthenticate,)
 
     def get(self, request, *args, **kwargs):
         print("GET a Usuario")

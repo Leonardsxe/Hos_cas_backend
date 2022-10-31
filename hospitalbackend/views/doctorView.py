@@ -1,10 +1,18 @@
+from django.conf import settings
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.backends import TokenBackend
+from rest_framework.permissions import IsAuthenticated
 from hospitalbackend.serializers.doctorSerializer import DoctorSerializer
 from hospitalbackend.serializers.userSerializer import UserSerializer
 from hospitalbackend.models.medico import Usuario
 
+def validation_auth(request):
+        token = request.META.get('HTTP_AUTHORIZATION')[7:]
+        tokenBackend = TokenBackend(algorithm = settings.SIMPLE_JWT['ALGORITHM'])
+        valid_data = tokenBackend.decode(token,verify=False)
+        return valid_data
 
 class DoctorListCreateview(generics.ListCreateAPIView):
     queryset = Usuario.objects.all()
@@ -43,46 +51,53 @@ class DoctorListCreateview(generics.ListCreateAPIView):
         #return Response(status=status.HTTP_201_CREATED)
 
         tokenData = {
-            "username":request.data["username"],
-            "password":request.data["password"],
+            "Username":request.data["username"],
+            "Password":request.data["password"],
         }
         tokenSerializer = TokenObtainPairSerializer(data=tokenData)
         tokenSerializer.is_valid(raise_exception=True)
+        #print(tokenSerializer)
         return Response(tokenSerializer.validated_data, status=status.HTTP_201_CREATED)
 
+
+    
 class DoctorRetriveUpdateView(generics.RetrieveUpdateAPIView):
     queryset = Usuario.objects.all()
     serializer_class = DoctorSerializer
     lookup_field = "id"              #Campo con el que se realizan la busquedad de los objects
     lookup_url_kwarg = "pk"           #Nombre dado en la url al argumento
-    #permission_classes = (IsAuthenticate,)
-
+    permission_classes = (IsAuthenticated,)
+    
     def get(self, request, *args, **kwargs):
         print("GET a Medico")
         queryset = self.get_queryset()
         serializer = DoctorSerializer(queryset)
-        # if valid_data('user_id') != kwargs['pk']:
-        #     stringResponse =  {'detail':'Unathorized Request'}
-        #     return Response(stringResponse, status=status.HTTP_401_UNAUTHORIZED)
+        valid_data = validation_auth(request)
+        if valid_data['user_id'] != kwargs['pk']:
+            stringResponse =  {'detail':'Unathorized Request'}
+            return Response(stringResponse, status=status.HTTP_401_UNAUTHORIZED)
         return super().get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         print("POST a Medico")
-        # if valid_data('user_id') != kwargs['pk']:
-        #     stringResponse =  {'detail':'Unathorized Request'}
-        #     return Response(stringResponse, status=status.HTTP_401_UNAUTHORIZED)
+        valid_data = validation_auth(request)
+        if valid_data['user_id'] != kwargs['pk']:
+            stringResponse =  {'detail':'Unathorized Request'}
+            return Response(stringResponse, status=status.HTTP_401_UNAUTHORIZED)
         return super().post(request, *args, **kwargs)
 
     def put(self, request, *args, **kwargs):
         print("PUT a Medico")
-        # if valid_data('user_id') != kwargs['pk']:
-        #     stringResponse =  {'detail':'Unathorized Request'}
-        #     return Response(stringResponse, status=status.HTTP_401_UNAUTHORIZED)
+        valid_data = validation_auth(request)
+        if valid_data['user_id'] != kwargs['pk']:
+            stringResponse =  {'detail':'Unathorized Request'}
+            return Response(stringResponse, status=status.HTTP_401_UNAUTHORIZED)
         return super().put(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
         print("DELETE a Medico")
-        # if valid_data('user_id') != kwargs['pk']:
-        #     stringResponse =  {'detail':'Unathorized Request'}
-        #     return Response(stringResponse, status=status.HTTP_401_UNAUTHORIZED)
+        valid_data = validation_auth(request)
+        if valid_data['user_id'] != kwargs['pk']:
+            stringResponse =  {'detail':'Unathorized Request'}
+            return Response(stringResponse, status=status.HTTP_401_UNAUTHORIZED)
         return super().delete(request, *args, **kwargs)
